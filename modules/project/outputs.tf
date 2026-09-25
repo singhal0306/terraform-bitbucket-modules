@@ -42,3 +42,8 @@ output "repository_user_permissions" {
   description = "The repository user permissions created."
   value       = bitbucket_repository_user_permission.this
 }
+
+output "branching_model" {
+  description = "The project branching model resource created."
+  value       = one(bitbucket_project_branching_model.this)
+}

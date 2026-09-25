@@ -46,10 +46,11 @@ resource "bitbucket_project" "this" {
 }
 
 resource "bitbucket_project_branching_model" "this" {
-  count = var.branching_model != null ? 1 : 0
+  count = var.branching_model != null && try(var.branching_model.enabled, true) ? 1 : 0
 
-  workspace = var.workspace
-  project   = bitbucket_project.this.key
+  workspace               = var.workspace
+  project                 = bitbucket_project.this.key
+  default_branch_deletion = try(var.branching_model.default_branch_deletion, null)
 
   dynamic "development" {
     for_each = var.branching_model.development == null ? [] : [var.branching_model.development]
@@ -71,7 +72,7 @@ resource "bitbucket_project_branching_model" "this" {
   }
 
   dynamic "branch_type" {
-    for_each = var.branching_model.branch_types
+    for_each = try(var.branching_model.branch_types, {})
 
     content {
       enabled = true

@@ -91,27 +91,30 @@ variable "branching_model" {
   description = "Bitbucket project branching model configuration."
 
   type = object({
-    enabled = optional(bool, false)
+    enabled                 = optional(bool, true)
+    default_branch_deletion = optional(bool)
     development = optional(object({
-      name                = optional(string)
-      use_mainbranch      = optional(bool)
+      name           = optional(string)
+      use_mainbranch = optional(bool)
     }))
 
     production = optional(object({
-      name                = optional(string)
-      use_mainbranch      = optional(bool)
+      enabled        = optional(bool, true)
+      name           = optional(string)
+      use_mainbranch = optional(bool)
     }))
 
     branch_types = optional(map(object({
       kind    = string
       prefix  = optional(string)
+      enabled = optional(bool, true)
     })), {})
   })
 
-  default = {}
+  default = null
 
   validation {
-    condition = var.branching_model.development == null || (
+    condition = var.branching_model == null || var.branching_model.development == null || (
       (
         try(var.branching_model.development.use_mainbranch, null) == true &&
         try(var.branching_model.development.name, null) == null
@@ -131,7 +134,7 @@ variable "branching_model" {
   }
 
   validation {
-    condition = var.branching_model.production == null || (
+    condition = var.branching_model == null || var.branching_model.production == null || (
       (
         try(var.branching_model.production.use_mainbranch, null) == true &&
         try(var.branching_model.production.name, null) == null
@@ -151,7 +154,7 @@ variable "branching_model" {
   }
 
   validation {
-    condition = alltrue([
+    condition = var.branching_model == null || alltrue([
       for branch_type in values(var.branching_model.branch_types) :
       contains(["feature", "bugfix", "release", "hotfix"], branch_type.kind)
     ])
@@ -160,7 +163,7 @@ variable "branching_model" {
   }
 
   validation {
-    condition = alltrue([
+    condition = var.branching_model == null || alltrue([
       for branch_type in values(var.branching_model.branch_types) :
       !try(branch_type.enabled, true) || trimspace(try(branch_type.prefix, "")) != ""
     ])

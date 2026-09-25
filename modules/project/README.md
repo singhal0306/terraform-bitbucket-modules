@@ -81,6 +81,7 @@ module "project" {
 | project_default_reviewers    | List of user UUIDs as project default reviewers      | `list(string)`     | `[]`    |    no    |
 | repository_group_permissions | Repo-level group permissions map.                    | `map(map(string))` | `{}`    |    no    |
 | repository_user_permissions  | Repo-level user permissions map.                     | `map(map(string))` | `{}`    |    no    |
+| branching_model              | Bitbucket project branching model configuration.     | `object(...)`      | `null`  |    no    |
 
 ## Outputs
 
@@ -95,3 +96,4 @@ module "project" {
 | project_default_reviewers    | The project default reviewers created.                    |
 | repository_group_permissions | The repository group permissions created.                 |
 | repository_user_permissions  | The repository user permissions created.                  |
+| branching_model              | The project branching model resource created.             |

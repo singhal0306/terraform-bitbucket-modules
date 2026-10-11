@@ -1,16 +1,8 @@
-variable "workspace" {
-  description = "The slug or UUID of the workspace."
-  type        = string
+variable "auto_add" {
+  description = "Whether to automatically add repositories."
+  type        = bool
+  default     = false
 }
-
-# variable "groups" {
-#   description = "A map of groups to manage in the workspace."
-#   type = map(object({
-#     slug        = string
-#     description = optional(string)
-#   }))
-#   default = {}
-# }
 
 variable "name" {
   description = "The name of the Bitbucket project."
@@ -23,13 +15,7 @@ variable "permissions" {
   default     = null
 }
 
-# variable "auto_add" {
-#   description = "A map of repository names to their resource references."
-#   type        = optional(bool, false)
-# }
-
-variable "auto_add" {
-  description = "Whether to automatically add repositories."
-  type        = bool
-  default     = false
+variable "workspace" {
+  description = "The slug or UUID of the workspace."
+  type        = string
 }

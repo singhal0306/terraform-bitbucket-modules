@@ -1,0 +1,33 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bitbucket Groups Module Inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "name",
+    "workspace"
+  ],
+  "properties": {
+    "auto_add": {
+      "type": "boolean",
+      "default": false,
+      "description": "Whether to automatically add repositories."
+    },
+    "name": {
+      "type": "string",
+      "description": "The name of the Bitbucket project."
+    },
+    "permissions": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "A map where the key is the repository name and the value is another map of group slugs to permission levels."
+    },
+    "workspace": {
+      "type": "string",
+      "description": "The slug or UUID of the workspace."
+    }
+  }
+}

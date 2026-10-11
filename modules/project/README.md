@@ -2,6 +2,17 @@
 
 This module manages a Bitbucket project, its associated repositories, and branch restrictions following Cloud Foundation Fabric patterns.
 
+## Contents
+
+<!-- BEGIN TOC -->
+- [Features](#features)
+- [Usage](#usage)
+  - [Repository controls](#repository-controls)
+- [Requirements](#requirements)
+- [Variables](#variables)
+- [Outputs](#outputs)
+<!-- END TOC -->
+
 ## Features
 
 - Creates and manages a Bitbucket project.
@@ -17,46 +28,62 @@ This module manages a Bitbucket project, its associated repositories, and branch
 module "project" {
   source = "./modules/project"
 
-  workspace           = "my-workspace"
-  project_key         = "PRJ"
-  project_name        = "Core Platform"
-  project_description = "Core platform repositories"
+  workspace = "my-workspace"
+  key       = "PRJ"
+  name      = "Core Platform"
+}
+# tftest modules=1 resources=1 inventory=authorized_resources.yaml
+```
+
+### Repository controls
+
+```hcl
+module "project" {
+  source    = "./modules/project"
+  workspace = "my-workspace"
+  key       = "CORE"
+  name      = "Core Platform"
+
+  branching_model = {
+    development = {
+      use_mainbranch = true
+    }
+    production = {
+      name = "main"
+    }
+    branch_types = {
+      feature = {
+        kind   = "feature"
+        prefix = "feature/"
+      }
+    }
+  }
 
   repositories = {
     "service-a" = {
-      description = "Service A repo"
-      is_private  = true
-    }
-  }
-
-  branch_restrictions = {
-    "service-a" = [
-      {
-        kind    = "push"
-        pattern = "main"
-        groups  = ["administrators"]
+      description = "Core service repository."
+      branch_restrictions = [
+        {
+          kind    = "push"
+          pattern = "main"
+          groups  = ["developers"]
+        }
+      ]
+      group_permissions = {
+        developers = "write"
       }
-    ]
+    }
   }
 
   project_group_permissions = {
-    "dev-leads" = "admin"
+    developers = "write"
   }
-
   project_user_permissions = {
-    "{user-uuid-here}" = "write"
+    "{user-uuid}" = "read"
   }
-
-  project_default_reviewers = ["{user-uuid-here}"]
-
-  repository_group_permissions = {
-    "service-a" = {
-      "developers" = "write"
-    }
-  }
-
-  repository_user_permissions = {}
+  project_default_reviewers = ["{user-uuid}"]
 }
+# tftest modules=1 resources=8 inventory=repository_controls.yaml
 ```
 
 ## Requirements
@@ -65,35 +92,34 @@ module "project" {
 | --------- | -------- |
 | terraform | >= 1.5.0 |
 | bitbucket | >= 1.2.0 |
+<!-- BEGIN TFDOC -->
+## Variables
 
-## Inputs
-
-| Name                         | Description                                          | Type               | Default | Required |
-| ---------------------------- | ---------------------------------------------------- | ------------------ | ------- | :------: |
-| workspace                    | The slug or UUID of the workspace.                   | `string`           | n/a     |   yes    |
-| project_key                  | The key for the Bitbucket project.                   | `string`           | n/a     |   yes    |
-| project_name                 | The name of the Bitbucket project.                   | `string`           | n/a     |   yes    |
-| project_description          | Optional description for the project.                | `string`           | `null`  |    no    |
-| repositories                 | Map of repositories to create within the project.    | `map(...)`         | `{}`    |    no    |
-| branch_restrictions          | Map of repository branch restriction configurations. | `map(list(...))`   | `{}`    |    no    |
-| project_group_permissions    | Permissions for groups at project level.             | `map(string)`      | `{}`    |    no    |
-| project_user_permissions     | Permissions for users at project level.              | `map(string)`      | `{}`    |    no    |
-| project_default_reviewers    | List of user UUIDs as project default reviewers      | `list(string)`     | `[]`    |    no    |
-| repository_group_permissions | Repo-level group permissions map.                    | `map(map(string))` | `{}`    |    no    |
-| repository_user_permissions  | Repo-level user permissions map.                     | `map(map(string))` | `{}`    |    no    |
-| branching_model              | Bitbucket project branching model configuration.     | `object(...)`      | `null`  |    no    |
+| name | description | type | required | default |
+|---|---|:---:|:---:|:---:|
+| [key](variables.tf#L90) | Bitbucket project key. | <code>string</code> | ✓ |  |
+| [name](variables.tf#L109) | Bitbucket project name. | <code>string</code> | ✓ |  |
+| [workspace](variables.tf#L154) | The slug or UUID Bitbucket workspace that owns the project. | <code>string</code> | ✓ |  |
+| [branching_model](variables.tf#L1) | Bitbucket project branching model configuration. | <code>object&#40;&#123;&#8230;&#125;&#41;</code> |  | <code>null</code> |
+| [description](variables.tf#L78) | Optional description for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
+| [is_private](variables.tf#L84) | Specifies whether the project is private. | <code>bool</code> |  | <code>true</code> |
+| [link_avatar](variables.tf#L103) | Optional URL link for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
+| [project_default_reviewers](variables.tf#L119) | List of user UUIDs or account IDs to configure as default reviewers for the project. | <code>list&#40;string&#41;</code> |  | <code>&#91;&#93;</code> |
+| [project_group_permissions](variables.tf#L125) | Permissions for groups at the project level, keyed by group slug (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
+| [project_user_permissions](variables.tf#L131) | Permissions for users at the project level, keyed by user UUID or account ID (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
+| [repositories](variables.tf#L137) | Repositories to create within the project, complete with permissions and branch restrictions. | <code>map&#40;object&#40;&#123;&#8230;&#125;&#41;&#41;</code> |  | <code>&#123;&#125;</code> |
 
 ## Outputs
 
-| Name                         | Description                                               |
-| ---------------------------- | --------------------------------------------------------- |
-| id                           | The ID of the Bitbucket project.                          |
-| project                      | The created Bitbucket project resource.                   |
-| repositories                 | A map of the created repository resources, keyed by name. |
-| repository_names             | A map of repository names created in this project.        |
-| project_group_permissions    | The project group permissions created.                    |
-| project_user_permissions     | The project user permissions created.                     |
-| project_default_reviewers    | The project default reviewers created.                    |
-| repository_group_permissions | The repository group permissions created.                 |
-| repository_user_permissions  | The repository user permissions created.                  |
-| branching_model              | The project branching model resource created.             |
+| name | description | sensitive |
+|---|---|:---:|
+| [id](outputs.tf#L1) | The ID of the Bitbucket project. |  |
+| [project](outputs.tf#L6) | The created Bitbucket project resource. |  |
+| [project_default_reviewers](outputs.tf#L11) | The project default reviewers created. |  |
+| [project_group_permissions](outputs.tf#L16) | The project group permissions created. |  |
+| [project_user_permissions](outputs.tf#L21) | The project user permissions created. |  |
+| [repositories](outputs.tf#L26) | A map of the created repository resources, keyed by name. |  |
+| [repository_group_permissions](outputs.tf#L31) | The repository group permissions created. |  |
+| [repository_names](outputs.tf#L36) | A map of repository names created in this project. |  |
+| [repository_user_permissions](outputs.tf#L41) | The repository user permissions created. |  |
+<!-- END TFDOC -->

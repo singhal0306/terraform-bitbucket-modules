@@ -1,0 +1,343 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bitbucket Project Module Inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "key",
+    "name",
+    "workspace"
+  ],
+  "properties": {
+    "branching_model": {
+      "type": [
+        "object",
+        "null"
+      ],
+      "default": null,
+      "description": "Bitbucket project branching model configuration.",
+      "properties": {
+        "enabled": {
+          "type": "boolean",
+          "default": true
+        },
+        "default_branch_deletion": {
+          "type": [
+            "boolean",
+            "null"
+          ],
+          "default": null
+        },
+        "development": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "use_mainbranch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "use_mainbranch": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "use_mainbranch"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "name": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "use_mainbranch": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "use_mainbranch"
+                ]
+              },
+              "then": {
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": ".*\\S.*"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "production": {
+          "type": [
+            "object",
+            "null"
+          ],
+          "properties": {
+            "enabled": {
+              "type": "boolean",
+              "default": true
+            },
+            "name": {
+              "type": [
+                "string",
+                "null"
+              ]
+            },
+            "use_mainbranch": {
+              "type": [
+                "boolean",
+                "null"
+              ]
+            }
+          },
+          "allOf": [
+            {
+              "if": {
+                "properties": {
+                  "use_mainbranch": {
+                    "const": true
+                  }
+                },
+                "required": [
+                  "use_mainbranch"
+                ]
+              },
+              "then": {
+                "properties": {
+                  "name": {
+                    "type": "null"
+                  }
+                }
+              }
+            },
+            {
+              "if": {
+                "properties": {
+                  "use_mainbranch": {
+                    "const": false
+                  }
+                },
+                "required": [
+                  "use_mainbranch"
+                ]
+              },
+              "then": {
+                "required": [
+                  "name"
+                ],
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "pattern": ".*\\S.*"
+                  }
+                }
+              }
+            }
+          ]
+        },
+        "branch_types": {
+          "type": "object",
+          "default": {},
+          "additionalProperties": {
+            "type": "object",
+            "required": [
+              "kind"
+            ],
+            "properties": {
+              "kind": {
+                "type": "string",
+                "enum": [
+                  "feature",
+                  "bugfix",
+                  "release",
+                  "hotfix"
+                ]
+              },
+              "prefix": {
+                "type": [
+                  "string",
+                  "null"
+                ]
+              },
+              "enabled": {
+                "type": "boolean",
+                "default": true
+              }
+            },
+            "allOf": [
+              {
+                "if": {
+                  "properties": {
+                    "enabled": {
+                      "const": false
+                    }
+                  },
+                  "required": [
+                    "enabled"
+                  ]
+                },
+                "else": {
+                  "required": [
+                    "prefix"
+                  ],
+                  "properties": {
+                    "prefix": {
+                      "type": "string",
+                      "pattern": ".*\\S.*"
+                    }
+                  }
+                }
+              }
+            ]
+          }
+        }
+      }
+    },
+    "description": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Optional description for the Bitbucket project."
+    },
+    "is_private": {
+      "type": "boolean",
+      "default": true,
+      "description": "Specifies whether the project is private."
+    },
+    "key": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 255,
+      "description": "Bitbucket project key."
+    },
+    "link_avatar": {
+      "type": [
+        "string",
+        "null"
+      ],
+      "default": null,
+      "description": "Optional URL link for the Bitbucket project."
+    },
+    "name": {
+      "type": "string",
+      "minLength": 1,
+      "description": "Bitbucket project name."
+    },
+    "project_default_reviewers": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      },
+      "default": [],
+      "description": "List of user UUIDs or account IDs to configure as default reviewers for the project."
+    },
+    "project_group_permissions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Permissions for groups at the project level, keyed by group slug (read, write, admin)."
+    },
+    "project_user_permissions": {
+      "type": "object",
+      "additionalProperties": {
+        "type": "string"
+      },
+      "default": {},
+      "description": "Permissions for users at the project level, keyed by user UUID or account ID (read, write, admin)."
+    },
+    "repositories": {
+      "type": "object",
+      "default": {},
+      "description": "Repositories to create within the project, complete with permissions and branch restrictions.",
+      "additionalProperties": {
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": [
+              "string",
+              "null"
+            ]
+          },
+          "is_private": {
+            "type": "boolean",
+            "default": true
+          },
+          "branch_restrictions": {
+            "type": "array",
+            "default": [],
+            "items": {
+              "type": "object",
+              "required": [
+                "kind",
+                "pattern"
+              ],
+              "properties": {
+                "pattern": {
+                  "type": "string"
+                },
+                "kind": {
+                  "type": "string"
+                },
+                "groups": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  },
+                  "default": []
+                }
+              }
+            }
+          },
+          "group_permissions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {}
+          },
+          "user_permissions": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "default": {}
+          }
+        }
+      }
+    },
+    "workspace": {
+      "type": "string",
+      "minLength": 1,
+      "description": "The slug or UUID Bitbucket workspace that owns the project."
+    }
+  }
+}

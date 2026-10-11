@@ -1,0 +1,15 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Bitbucket Workspace Module Inputs",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "slug"
+  ],
+  "properties": {
+    "slug": {
+      "type": "string",
+      "description": "The slug or UUID of the workspace."
+    }
+  }
+}

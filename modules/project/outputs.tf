@@ -8,14 +8,9 @@ output "project" {
   value       = bitbucket_project.this
 }
 
-output "repositories" {
-  description = "A map of the created repository resources, keyed by name."
-  value       = bitbucket_repository.this
-}
-
-output "repository_names" {
-  description = "A map of repository names created in this project."
-  value       = { for k, v in bitbucket_repository.this : k => v.name }
+output "project_default_reviewers" {
+  description = "The project default reviewers created."
+  value       = one(bitbucket_project_default_reviewers.this)
 }
 
 output "project_group_permissions" {
@@ -28,9 +23,9 @@ output "project_user_permissions" {
   value       = bitbucket_project_user_permission.this
 }
 
-output "project_default_reviewers" {
-  description = "The project default reviewers created."
-  value       = one(bitbucket_project_default_reviewers.this)
+output "repositories" {
+  description = "A map of the created repository resources, keyed by name."
+  value       = bitbucket_repository.this
 }
 
 output "repository_group_permissions" {
@@ -38,12 +33,17 @@ output "repository_group_permissions" {
   value       = bitbucket_repository_group_permission.this
 }
 
+output "repository_names" {
+  description = "A map of repository names created in this project."
+  value       = { for k, v in bitbucket_repository.this : k => v.name }
+}
+
 output "repository_user_permissions" {
   description = "The repository user permissions created."
   value       = bitbucket_repository_user_permission.this
 }
 
-output "branching_model" {
-  description = "The project branching model resource created."
-  value       = one(bitbucket_project_branching_model.this)
-}
+# output "branching_model" {
+#   description = "The project branching model resource created."
+#   value       = one(bitbucket_project_branching_model.this)
+# }

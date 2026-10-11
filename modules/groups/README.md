@@ -32,8 +32,8 @@ module "group" {
 
 | name | description | type | required | default |
 |---|---|:---:|:---:|:---:|
-| [name](variables.tf#L7) | The name of the Bitbucket project. | <code>string</code> | ✓ |  |
-| [workspace](variables.tf#L18) | The slug or UUID of the workspace. | <code>string</code> | ✓ |  |
-| [auto_add](variables.tf#L1) | Whether to automatically add repositories. | <code>bool</code> |  | <code>false</code> |
-| [permissions](variables.tf#L12) | A map where the key is the repository name and the value is another map of group slugs to permission levels. | <code>string</code> |  | <code>null</code> |
+| [name](variables.tf#L23) | The name of the Bitbucket project. | <code>string</code> | ✓ |  |
+| [workspace](variables.tf#L34) | The slug or UUID of the workspace. | <code>string</code> | ✓ |  |
+| [auto_add](variables.tf#L17) | Whether to automatically add repositories. | <code>bool</code> |  | <code>false</code> |
+| [permissions](variables.tf#L28) | A map where the key is the repository name and the value is another map of group slugs to permission levels. | <code>string</code> |  | <code>null</code> |
 <!-- END TFDOC -->

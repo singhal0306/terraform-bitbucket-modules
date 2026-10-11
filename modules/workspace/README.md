@@ -30,12 +30,12 @@ module "workspace" {
 
 | name | description | type | required | default |
 |---|---|:---:|:---:|:---:|
-| [slug](variables.tf#L1) | The slug or UUID of the workspace. | <code>string</code> | ✓ |  |
+| [slug](variables.tf#L17) | The slug or UUID of the workspace. | <code>string</code> | ✓ |  |
 
 ## Outputs
 
 | name | description | sensitive |
 |---|---|:---:|
-| [slug](outputs.tf#L1) | The workspace slug. |  |
-| [workspace](outputs.tf#L6) | The workspace. |  |
+| [slug](outputs.tf#L17) | The workspace slug. |  |
+| [workspace](outputs.tf#L22) | The workspace. |  |
 <!-- END TFDOC -->

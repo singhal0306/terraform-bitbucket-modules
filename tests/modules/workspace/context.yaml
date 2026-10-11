@@ -1,0 +1,5 @@
+counts:
+  bitbucket_workspace: 1
+
+outputs:
+  slug: test-workspace

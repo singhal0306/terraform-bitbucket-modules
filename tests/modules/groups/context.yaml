@@ -1,0 +1,9 @@
+values:
+  bitbucket_group.this:
+    auto_add: true
+    name: test-developers
+    permission: write
+    workspace: test-workspace
+
+counts:
+  bitbucket_group: 1

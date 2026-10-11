@@ -1,0 +1,20 @@
+values:
+  bitbucket_project.this:
+    key: CTX
+    name: Context Test Project
+    owner: test-workspace
+  bitbucket_project_group_permission.this["developers"]:
+    group_slug: developers
+    permission: write
+    project_key: CTX
+    workspace: test-workspace
+  bitbucket_repository.this["sample"]:
+    is_private: true
+    name: sample
+    owner: test-workspace
+    project_key: CTX
+
+counts:
+  bitbucket_project: 1
+  bitbucket_project_group_permission: 1
+  bitbucket_repository: 1

@@ -1,0 +1,3 @@
+module: modules/project
+tests:
+  context:

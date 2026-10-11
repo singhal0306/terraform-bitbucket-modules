@@ -97,29 +97,29 @@ module "project" {
 
 | name | description | type | required | default |
 |---|---|:---:|:---:|:---:|
-| [key](variables.tf#L90) | Bitbucket project key. | <code>string</code> | ✓ |  |
-| [name](variables.tf#L109) | Bitbucket project name. | <code>string</code> | ✓ |  |
-| [workspace](variables.tf#L154) | The slug or UUID Bitbucket workspace that owns the project. | <code>string</code> | ✓ |  |
-| [branching_model](variables.tf#L1) | Bitbucket project branching model configuration. | <code>object&#40;&#123;&#8230;&#125;&#41;</code> |  | <code>null</code> |
-| [description](variables.tf#L78) | Optional description for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
-| [is_private](variables.tf#L84) | Specifies whether the project is private. | <code>bool</code> |  | <code>true</code> |
-| [link_avatar](variables.tf#L103) | Optional URL link for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
-| [project_default_reviewers](variables.tf#L119) | List of user UUIDs or account IDs to configure as default reviewers for the project. | <code>list&#40;string&#41;</code> |  | <code>&#91;&#93;</code> |
-| [project_group_permissions](variables.tf#L125) | Permissions for groups at the project level, keyed by group slug (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
-| [project_user_permissions](variables.tf#L131) | Permissions for users at the project level, keyed by user UUID or account ID (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
-| [repositories](variables.tf#L137) | Repositories to create within the project, complete with permissions and branch restrictions. | <code>map&#40;object&#40;&#123;&#8230;&#125;&#41;&#41;</code> |  | <code>&#123;&#125;</code> |
+| [key](variables.tf#L106) | Bitbucket project key. | <code>string</code> | ✓ |  |
+| [name](variables.tf#L125) | Bitbucket project name. | <code>string</code> | ✓ |  |
+| [workspace](variables.tf#L170) | The slug or UUID Bitbucket workspace that owns the project. | <code>string</code> | ✓ |  |
+| [branching_model](variables.tf#L17) | Bitbucket project branching model configuration. | <code>object&#40;&#123;&#8230;&#125;&#41;</code> |  | <code>null</code> |
+| [description](variables.tf#L94) | Optional description for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
+| [is_private](variables.tf#L100) | Specifies whether the project is private. | <code>bool</code> |  | <code>true</code> |
+| [link_avatar](variables.tf#L119) | Optional URL link for the Bitbucket project. | <code>string</code> |  | <code>null</code> |
+| [project_default_reviewers](variables.tf#L135) | List of user UUIDs or account IDs to configure as default reviewers for the project. | <code>list&#40;string&#41;</code> |  | <code>&#91;&#93;</code> |
+| [project_group_permissions](variables.tf#L141) | Permissions for groups at the project level, keyed by group slug (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
+| [project_user_permissions](variables.tf#L147) | Permissions for users at the project level, keyed by user UUID or account ID (read, write, admin). | <code>map&#40;string&#41;</code> |  | <code>&#123;&#125;</code> |
+| [repositories](variables.tf#L153) | Repositories to create within the project, complete with permissions and branch restrictions. | <code>map&#40;object&#40;&#123;&#8230;&#125;&#41;&#41;</code> |  | <code>&#123;&#125;</code> |
 
 ## Outputs
 
 | name | description | sensitive |
 |---|---|:---:|
-| [id](outputs.tf#L1) | The ID of the Bitbucket project. |  |
-| [project](outputs.tf#L6) | The created Bitbucket project resource. |  |
-| [project_default_reviewers](outputs.tf#L11) | The project default reviewers created. |  |
-| [project_group_permissions](outputs.tf#L16) | The project group permissions created. |  |
-| [project_user_permissions](outputs.tf#L21) | The project user permissions created. |  |
-| [repositories](outputs.tf#L26) | A map of the created repository resources, keyed by name. |  |
-| [repository_group_permissions](outputs.tf#L31) | The repository group permissions created. |  |
-| [repository_names](outputs.tf#L36) | A map of repository names created in this project. |  |
-| [repository_user_permissions](outputs.tf#L41) | The repository user permissions created. |  |
+| [id](outputs.tf#L17) | The ID of the Bitbucket project. |  |
+| [project](outputs.tf#L22) | The created Bitbucket project resource. |  |
+| [project_default_reviewers](outputs.tf#L27) | The project default reviewers created. |  |
+| [project_group_permissions](outputs.tf#L32) | The project group permissions created. |  |
+| [project_user_permissions](outputs.tf#L37) | The project user permissions created. |  |
+| [repositories](outputs.tf#L42) | A map of the created repository resources, keyed by name. |  |
+| [repository_group_permissions](outputs.tf#L47) | The repository group permissions created. |  |
+| [repository_names](outputs.tf#L52) | A map of repository names created in this project. |  |
+| [repository_user_permissions](outputs.tf#L57) | The repository user permissions created. |  |
 <!-- END TFDOC -->
